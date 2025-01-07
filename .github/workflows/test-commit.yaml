@@ -20,6 +20,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
+          no-cache: true
           tags: taehoon981/rolling-paper:latest
 
       - name: SSH into VM and update Docker container # SSH로 VM 접근하여 sh 실행
