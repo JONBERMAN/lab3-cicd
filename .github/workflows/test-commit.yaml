@@ -30,7 +30,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /home/kevin/rolling-paper # VM에서 실행할 스크립트 작성
+            cd /home/kevin/lab3 # VM에서 실행할 스크립트 작성
             docker-compose down
             docker-compose pull
             docker-compose up -d
