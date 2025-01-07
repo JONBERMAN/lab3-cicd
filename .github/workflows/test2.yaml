@@ -1,7 +1,9 @@
 name: Update Docker container on VM
+
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+
 jobs:
   build-and-deploy:
     runs-on: self-hosted # git runner를 설정해서 self-hosted 기반 서버
@@ -11,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Login to Docker Hub # Docker Hub 로그인
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -20,10 +22,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: taehoon981/rolling-paper:latest
+          tags: moveho/rolling-paper:latest
 
       - name: SSH into VM and update Docker container # SSH로 VM 접근하여 sh 실행
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
@@ -31,7 +33,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/kevin/rolling-paper # VM에서 실행할 스크립트 작성
-            docker-compose down
-            docker-compose pull
-            docker-compose up -d
+            sudo docker-compose down
+            sudo docker-compose pull
+            sudo docker-compose up -d
 
